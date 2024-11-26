@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WHOIS Lookup - PyFlaSQL</title>
+</head>
+<body>
+    <h1>Outil WHOIS</h1>
+    
+    <form id="whoisForm" method="POST">
+        <input 
+            type="text" 
+            name="domain" 
+            placeholder="Entrez un nom de domaine (ex: google.com)"
+            required
+        >
+        <button type="submit">Rechercher</button>
+    </form>
+    
+    <div id="resultsContainer">
+        <!-- Les résultats seront affichés ici -->
+    </div>
+
+    <script>
+    document.getElementById('whoisForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const domain = this.querySelector('input[name="domain"]').value;
+        
+        fetch('/whois', {
+            method: 'POST',
+            body: new FormData(this)
+        })
+        .then(response => response.json())
+        .then(data => {
+            const container = document.getElementById('resultsContainer');
+            if (data.status === 'success') {
+                let html = '<h2>Résultats WHOIS</h2>';
+                for (let [key, value] of Object.entries(data.data)) {
+                    html += `<p><strong>${key}:</strong> ${value}</p>`;
+                }
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = `<p>Erreur : ${data.message}</p>`;
+            }
+        });
+    });
+    </script>
+</body>
+</html>
