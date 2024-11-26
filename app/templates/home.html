@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="display-4">Bienvenue sur PyFlaSQL</h1>
+            <p class="lead">Votre Framework Complet de Pentesting</p>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Reconnaissance</h5>
+                    <p class="card-text">Collectez des informations sur les cibles avec des outils OSINT et de footprinting.</p>
+                    <a href="/tools/reconnaissance" class="btn btn-primary">Commencer</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Scan Réseau</h5>
+                    <p class="card-text">Identifiez les hôtes, ports ouverts et vulnérabilités potentielles.</p>
+                    <a href="/tools/network-scan" class="btn btn-primary">Commencer</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Exploitation</h5>
+                    <p class="card-text">Testez et explorez les failles de sécurité de manière éthique.</p>
+                    <a href="/tools/exploitation" class="btn btn-primary">Commencer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="alert alert-warning">
+                <strong>Avertissement :</strong> Ce framework est destiné à des fins de test et de formation uniquement. 
+                Utilisez-le de manière responsable et uniquement sur des systèmes dont vous avez l'autorisation explicite.
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

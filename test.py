@@ -1,6 +1,6 @@
-from app.tools.reconnaissance import WhoisTool
+from app.tools.reconnaissance import get_domain_info
 
 # Test manuel
 domain = "google.com"
-result = WhoisTool.parse_whois_data(domain)
+result = get_domain_info(domain)
 print(result)
