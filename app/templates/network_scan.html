@@ -2,25 +2,25 @@
 
 {% block content %}
 <div class="container">
-    <h1>Scan de Réseau</h1>
+    <h1>Network Scan</h1>
     
     <div class="card">
         <div class="card-body">
             <form id="networkScanForm" method="POST" action="/network-scan">
                 <div class="mb-3">
-                    <label for="targetInput" class="form-label">Adresse IP / Domaine</label>
+                    <label for="targetInput" class="form-label">IP Address / Domain</label>
                     <input 
                         type="text" 
                         class="form-control" 
                         id="targetInput" 
                         name="target" 
-                        placeholder="192.168.1.1 ou exemple.com" 
+                        placeholder="192.168.1.1 or example.com" 
                         required
                     >
                 </div>
                 
                 <div class="mb-3">
-                    <label class="form-label">Type de Scan</label>
+                    <label class="form-label">Scan Type</label>
                     <div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="scan_type" value="ping" checked>
@@ -33,13 +33,13 @@
                     </div>
                 </div>
                 
-                <button type="submit" class="btn btn-primary">Lancer le Scan</button>
+                <button type="submit" class="btn btn-primary">Start Scan</button>
             </form>
         </div>
     </div>
 
     <div id="resultsContainer" class="mt-4">
-        <!-- Les résultats du scan seront affichés ici -->
+        <!-- Scan results will be displayed here -->
     </div>
 </div>
 
@@ -52,7 +52,7 @@ document.getElementById('networkScanForm').addEventListener('submit', function(e
     const scanType = document.querySelector('input[name="scan_type"]:checked').value;
     const resultsContainer = document.getElementById('resultsContainer');
     
-    resultsContainer.innerHTML = '<div class="spinner-border" role="status"><span class="visually-hidden">Scan en cours...</span></div>';
+    resultsContainer.innerHTML = '<div class="spinner-border" role="status"><span class="visually-hidden">Scanning...</span></div>';
     
     fetch('/network-scan', {
         method: 'POST',
@@ -64,7 +64,7 @@ document.getElementById('networkScanForm').addEventListener('submit', function(e
             let html = `
                 <div class="card">
                     <div class="card-header">
-                        Résultats du Scan ${scanType.toUpperCase()} pour ${target}
+                        ${scanType.toUpperCase()} Scan Results for ${target}
                     </div>
                     <div class="card-body">
                         <pre>${JSON.stringify(data.results, null, 2)}</pre>
@@ -75,7 +75,7 @@ document.getElementById('networkScanForm').addEventListener('submit', function(e
         } else {
             resultsContainer.innerHTML = `
                 <div class="alert alert-danger">
-                    Erreur : ${data.message}
+                    Error: ${data.message}
                 </div>
             `;
         }
@@ -83,7 +83,7 @@ document.getElementById('networkScanForm').addEventListener('submit', function(e
     .catch(error => {
         resultsContainer.innerHTML = `
             <div class="alert alert-danger">
-                Erreur de connexion : ${error}
+                Connection error: ${error}
             </div>
         `;
     });

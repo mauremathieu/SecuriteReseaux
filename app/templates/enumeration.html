@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Enumeration{% endblock %}
+
+{% block content %}
+<h1>Enumeration Tool</h1>
+
+<h2>Banner Grabbing</h2>
+<form id="bannerGrabbingForm" method="POST" action="/nmap">
+    <input 
+        type="text" 
+        name="target" 
+        placeholder="Enter a target IP address or hostname"
+        required
+    >
+    <button type="submit">NMAP</button>
+    <!-- Add other tools here -->
+</form>
+
+<h2>OS Enumeration</h2>
+<form id="osEnumerationForm" method="POST" action="/nmap">
+    <input 
+        type="text" 
+        name="target" 
+        placeholder="Enter a target IP address or hostname"
+        required
+    >
+    <button type="submit">NMAP</button>
+    <!-- Add other tools here -->
+</form>
+
+<h2>User Enumeration</h2>
+<form id="userEnumerationForm" method="POST" action="/nmap">
+    <input 
+        type="text" 
+        name="target" 
+        placeholder="Enter a target IP address or hostname"
+        required
+    >
+    <button type="submit">NMAP</button>
+    <!-- Add other tools here -->
+</form>
+{% endblock %}

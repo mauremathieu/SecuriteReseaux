@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Reconnaissance/Footprint{% endblock %}
+
+{% block content %}
+<h1>Footprint Tool</h1>
+
+<form id="whoisForm" method="POST" action="/footprint">
+    <input 
+        type="text" 
+        name="domain" 
+        placeholder="Enter a domain name (e.g., google.com)"
+        required
+    >
+    <select name="tool">
+        <option value="whois">WHOIS</option>
+        <option value="osint">OSINT</option>
+        <option value="phishing">Phishing</option>
+        <option value="mantego">Mantego</option>
+        <option value="recon-ng">Recon-ng</option>
+        <option value="shodan">Shodan</option>
+    </select>
+    <button type="submit">Search</button>
+</form>
+
+<div id="resultsContainer">
+    <!-- Results will be displayed here -->
+</div>
+
+<script>
+document.getElementById('whoisForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const domain = this.querySelector('input[name="domain"]').value;
+    const tool = this.querySelector('select[name="tool"]').value;
+    
+    fetch('/footprint', {
+        method: 'POST',
+        body: new FormData(this)
+    })
+    .then(response => response.json())
+    .then(data => {
+        const container = document.getElementById('resultsContainer');
+        if (data.status === 'success') {
+            let html = `<h2>${tool.toUpperCase()} Results</h2>`;
+            for (let [key, value] of Object.entries(data.data)) {
+                html += `<p><strong>${key}:</strong> ${value}</p>`;
+            }
+            container.innerHTML = html;
+        } else {
+            container.innerHTML = `<p>Error: ${data.message}</p>`;
+        }
+    });
+});
+</script>
+{% endblock %}
