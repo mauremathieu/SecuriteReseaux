@@ -1,4 +1,5 @@
-python-nmap
-requests
-shodan
-python-whois
+python3-nmap
+python3-requests
+python3-shodan
+python3-whois
+dnsrecon
