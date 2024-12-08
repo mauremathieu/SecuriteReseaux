@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify
-from app.tools.footprint import get_domain_info, osint_search, phishing_check, mantego_search, recon_ng_search, shodan_search
+from app.tools.footprint import whois_search, osint_search, phishing_check, mantego_search, recon_ng_search, shodan_search
 from app.tools.network_scan import ping_host, scan_network
 from app.tools.enumeration import nmap_scan
 from app.tools.gainingAccess import metasploit_exploit, ftp_exploit, ssh_exploit
@@ -21,7 +21,7 @@ def footprint_tools():
         tool = request.form.get('tool')
         
         if tool == 'whois':
-            results = get_domain_info(domain)
+            results = whois_search(domain)
         elif tool == 'osint':
             results = osint_search(domain)
         elif tool == 'phishing':
@@ -35,7 +35,7 @@ def footprint_tools():
         else:
             results = {"status": "error", "message": "Invalid tool selected"}
         
-        return jsonify(results)
+        return jsonify({"status": "success", "data": results})
     
     return render_template('footprint.html')
 

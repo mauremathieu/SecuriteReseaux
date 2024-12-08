@@ -43,13 +43,22 @@ document.getElementById('whoisForm').addEventListener('submit', function(e) {
         const container = document.getElementById('resultsContainer');
         if (data.status === 'success') {
             let html = `<h2>${tool.toUpperCase()} Results</h2>`;
-            for (let [key, value] of Object.entries(data.data)) {
-                html += `<p><strong>${key}:</strong> ${value}</p>`;
+            if (typeof data.data === 'object') {
+                html += `<p><strong>Command:</strong> ${data.data.command}</p>`;
+                html += `<p><strong>Output:</strong> <pre>${data.data.output}</pre></p>`;
+                if (data.data.error) {
+                    html += `<p><strong>Error:</strong> <pre>${data.data.error}</pre></p>`;
+                }
+            } else {
+                html += `<p>${data.data}</p>`;
             }
             container.innerHTML = html;
         } else {
             container.innerHTML = `<p>Error: ${data.message}</p>`;
         }
+    })
+    .catch(error => {
+        document.getElementById('resultsContainer').innerHTML = `<p>Error: ${error.message}</p>`;
     });
 });
 </script>
