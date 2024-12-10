@@ -49,7 +49,7 @@ def network_scanning():
         elif scan_type == 'nmap':
             result = scan_network(target)
         
-        return jsonify(result)
+        return jsonify({"status": "success", "data": result})
     
     return render_template('network_scan.html')
 

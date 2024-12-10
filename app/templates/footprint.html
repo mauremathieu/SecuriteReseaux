@@ -3,35 +3,50 @@
 {% block title %}Reconnaissance/Footprint{% endblock %}
 
 {% block content %}
-<h1>Footprint Tool</h1>
+<div class="container">
+    <h1>Footprint Tool</h1>
 
-<form id="whoisForm" method="POST" action="/footprint">
-    <input 
-        type="text" 
-        name="domain" 
-        placeholder="Enter a domain name (e.g., google.com)"
-        required
-    >
-    <select name="tool">
-        <option value="whois">WHOIS</option>
-        <option value="osint">OSINT</option>
-        <option value="wget">Wget</option>
-        <option value="dig">Dig</option>
-        <option value="nslookup">Nslookup</option>
-    </select>
-    <button type="submit">Search</button>
-</form>
+    <div class="card">
+        <div class="card-body">
+            <form id="footprintForm" method="POST" action="/footprint">
+                <div class="mb-3">
+                    <label for="domainInput" class="form-label">Domain</label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="domainInput" 
+                        name="domain" 
+                        placeholder="Enter a domain name (e.g., google.com)"
+                        required
+                    >
+                </div>
+                <div class="mb-3">
+                    <label for="toolSelect" class="form-label">Tool</label>
+                    <select class="form-select" id="toolSelect" name="tool">
+                        <option value="whois">WHOIS</option>
+                        <option value="osint">OSINT</option>
+                        <option value="wget">Wget</option>
+                        <option value="dig">Dig</option>
+                        <option value="nslookup">Nslookup</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
 
-<div id="resultsContainer">
-    <!-- Results will be displayed here -->
+    <div id="resultsContainer" class="mt-4">
+        <!-- Results will be displayed here -->
+    </div>
 </div>
 
+{% block extra_js %}
 <script>
-document.getElementById('whoisForm').addEventListener('submit', function(e) {
+document.getElementById('footprintForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    const domain = this.querySelector('input[name="domain"]').value;
-    const tool = this.querySelector('select[name="tool"]').value;
+    const resultsContainer = document.getElementById('resultsContainer');
+    resultsContainer.innerHTML = '<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>';
     
     fetch('/footprint', {
         method: 'POST',
@@ -39,9 +54,9 @@ document.getElementById('whoisForm').addEventListener('submit', function(e) {
     })
     .then(response => response.json())
     .then(data => {
-        const container = document.getElementById('resultsContainer');
         if (data.status === 'success') {
-            let html = `<h2>${tool.toUpperCase()} Results</h2>`;
+            const tool = document.getElementById('toolSelect').value;
+            let html = `<div class="card"><div class="card-header">${tool.toUpperCase()} Results</div><div class="card-body">`;
             if (typeof data.data === 'object') {
                 html += `<p><strong>Command:</strong> ${data.data.command}</p>`;
                 html += `<p><strong>Output:</strong> <pre>${data.data.output}</pre></p>`;
@@ -51,14 +66,16 @@ document.getElementById('whoisForm').addEventListener('submit', function(e) {
             } else {
                 html += `<p>${data.data}</p>`;
             }
-            container.innerHTML = html;
+            html += `</div></div>`;
+            resultsContainer.innerHTML = html;
         } else {
-            container.innerHTML = `<p>Error: ${data.message}</p>`;
+            resultsContainer.innerHTML = `<div class="alert alert-danger">Error: ${data.message}</div>`;
         }
     })
     .catch(error => {
-        document.getElementById('resultsContainer').innerHTML = `<p>Error: ${error.message}</p>`;
+        resultsContainer.innerHTML = `<div class="alert alert-danger">Connection error: ${error.message}</div>`;
     });
 });
 </script>
+{% endblock %}
 {% endblock %}

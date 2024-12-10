@@ -48,11 +48,8 @@
 document.getElementById('networkScanForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    const target = document.getElementById('targetInput').value;
-    const scanType = document.querySelector('input[name="scan_type"]:checked').value;
     const resultsContainer = document.getElementById('resultsContainer');
-    
-    resultsContainer.innerHTML = '<div class="spinner-border" role="status"><span class="visually-hidden">Scanning...</span></div>';
+    resultsContainer.innerHTML = '<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>';
     
     fetch('/network-scan', {
         method: 'POST',
@@ -61,31 +58,26 @@ document.getElementById('networkScanForm').addEventListener('submit', function(e
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
-            let html = `
-                <div class="card">
-                    <div class="card-header">
-                        ${scanType.toUpperCase()} Scan Results for ${target}
-                    </div>
-                    <div class="card-body">
-                        <pre>${JSON.stringify(data.results, null, 2)}</pre>
-                    </div>
-                </div>
-            `;
+            const scanType = document.querySelector('input[name="scan_type"]:checked').value;
+            const target = document.getElementById('targetInput').value;
+            let html = `<div class="card"><div class="card-header">${scanType.toUpperCase()} Results for ${target}</div><div class="card-body">`;
+            if (typeof data.data === 'object') {
+                html += `<p><strong>Command:</strong> ${data.data.command}</p>`;
+                html += `<p><strong>Output:</strong> <pre>${data.data.output}</pre></p>`;
+                if (data.data.error) {
+                    html += `<p><strong>Error:</strong> <pre>${data.data.error}</pre></p>`;
+                }
+            } else {
+                html += `<p>${data.data}</p>`;
+            }
+            html += `</div></div>`;
             resultsContainer.innerHTML = html;
         } else {
-            resultsContainer.innerHTML = `
-                <div class="alert alert-danger">
-                    Error: ${data.message}
-                </div>
-            `;
+            resultsContainer.innerHTML = `<div class="alert alert-danger">Error: ${data.message}</div>`;
         }
     })
     .catch(error => {
-        resultsContainer.innerHTML = `
-            <div class="alert alert-danger">
-                Connection error: ${error}
-            </div>
-        `;
+        resultsContainer.innerHTML = `<div class="alert alert-danger">Connection error: ${error.message}</div>`;
     });
 });
 </script>

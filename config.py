@@ -15,7 +15,19 @@ class Config:
         },
         'shodan': {
             'enabled': False,  # Nécessite une clé API
-            'api_key': None
+            'api_key': os.environ.get('SHODAN_API_KEY')
+        },
+        'dnsrecon': {
+            'enabled': True
+        },
+        'wget': {
+            'enabled': True
+        },
+        'dig': {
+            'enabled': True
+        },
+        'nslookup': {
+            'enabled': True
         }
     }
 

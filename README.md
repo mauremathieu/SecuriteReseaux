@@ -8,16 +8,10 @@ Cressant Fabien EI23
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install the required dependencies
-
-##### Windows:
+##### Linux:
 ```zsh
-pip install -r requirements.txt 
-```
-
-##### macOS/Linux:
-```zsh
-pip3 install -r requirements.txt
+chmod +x install_packages.sh
+./install_packages.sh
 ```
 
 ## Usage
@@ -55,4 +49,4 @@ The application demonstrates basic CRUD (Create, Read, Update, Delete) operation
 ## Remerciements
 
 Thank you, Raphael Vierra, for the courses.
-https://gitlab.emse.fr/raphael.viera/pyflasql/-/tree/main/app?ref_type=heads
+[Application inspired from](https://gitlab.emse.fr/raphael.viera/pyflasql/-/tree/main/app?ref_type=heads)
