@@ -91,7 +91,7 @@ def gaining_access_tools():
         
         return jsonify({"status": "success", "data": result})
     
-    return render_template('gainingAccess.html')
+    return render_template('gaining_access.html')
 
 @main_bp.route('/gaining-access/metasploit', methods=['POST'])
 def metasploit_access():

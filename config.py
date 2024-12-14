@@ -1,9 +1,11 @@
 import os
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'votre_cle_secrete'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
     DEBUG = True
     TESTING = False
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///site.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # Configuration des outils
     TOOLS_CONFIG = {

@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo apt install $(cat requirements.txt)
+pip install -r requirements.txt
