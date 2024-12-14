@@ -3,8 +3,7 @@
 This repository contains the code used for creating a Python-Flask-SQLite based environment for the cybersecurity ISMIN courses.
 
 ## Author
-Maure Mathieu EI23
-Cressant Fabien EI23
+Maure Mathieu EI23 & Cressant Fabien EI23
 
 ## Installation and usage
 
@@ -33,4 +32,4 @@ This project sets up a web application using Python, Flask, and SQLite. It inclu
 ## Remerciements
 
 Thank you, Raphael Vierra, for the courses.
-[Application inspired from](https://gitlab.emse.fr/raphael.viera/pyflasql/-/tree/main/app?ref_type=heads)
+Application inspired from [Vierra's one](https://gitlab.emse.fr/raphael.viera/pyflasql).
