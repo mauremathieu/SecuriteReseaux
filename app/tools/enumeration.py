@@ -1,9 +1,13 @@
-import subprocess
+from app.tools.run_shell_command import run_shell_command
 
-def nmap_scan(target):
-    """Perform an nmap scan to grab banner, OS, and user information."""
-    try:
-        result = subprocess.run(['nmap', '-A', target], capture_output=True, text=True)
-        return result.stdout
-    except Exception as e:
-        return str(e)
+def banner_grabbing(target):
+    command = f"nmap -sV {target}"
+    return run_shell_command(command)
+
+def os_enumeration(target):
+    command = f"nmap -O {target}"
+    return run_shell_command(command)
+
+def user_enumeration(target):
+    command = f"nmap --script smb-enum-users {target}"
+    return run_shell_command(command)

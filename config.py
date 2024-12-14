@@ -3,6 +3,7 @@ import os
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'votre_cle_secrete'
     DEBUG = True
+    TESTING = False
     
     # Configuration des outils
     TOOLS_CONFIG = {
@@ -28,6 +29,15 @@ class Config:
         },
         'nslookup': {
             'enabled': True
+        },
+        'metasploit': {
+            'enabled': True
+        },
+        'ftp': {
+            'enabled': True
+        },
+        'ssh': {
+            'enabled': True
         }
     }
 
@@ -37,3 +47,7 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     DEBUG = False
     DEVELOPMENT = False
+
+class TestingConfig(Config):
+    TESTING = True
+    DEBUG = False

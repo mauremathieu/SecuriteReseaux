@@ -1,7 +1,6 @@
 from app import create_app
-from config import Config  # Assuming you have a config.py file with a Config class
+from config import Config  
 
-# Créer l'instance de l'application
 app = create_app(Config)
 
 if __name__ == '__main__':
