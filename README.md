@@ -14,6 +14,8 @@ chmod +x install_packages.sh
 python3 run.py
 ```
 
+Then open port 5000 on browser.
+
 ## Description
 This project sets up a web application using Python, Flask, and SQLite. It includes the following components:
 
