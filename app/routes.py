@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, request, jsonify
 from app.tools.footprint import whois_search, osint_search, wget_search, dig_search, nslookup_search
 from app.tools.network_scan import ping_host, scan_network
-from app.tools.enumeration import nmap_scan
-from app.tools.gainingAccess import metasploit_exploit, ftp_exploit, ssh_exploit
+from app.tools.enumeration import banner_grabbing, os_enumeration, user_enumeration
+from app.tools.gaining_access import metasploit_exploit, ftp_exploit, ssh_exploit
 
 main_bp = Blueprint('main', __name__)
 
@@ -58,8 +58,18 @@ def enumeration_tools():
     """Enumeration tools page"""
     if request.method == 'POST':
         target = request.form.get('target')
-        result = nmap_scan(target)
-        return jsonify({"status": "success", "results": result})
+        tool = request.form.get('tool')
+        
+        if tool == 'banner':
+            result = banner_grabbing(target)
+        elif tool == 'os':
+            result = os_enumeration(target)
+        elif tool == 'user':
+            result = user_enumeration(target)
+        else:
+            result = {"status": "error", "message": "Invalid tool selected"}
+        
+        return jsonify({"status": "success", "data": result})
     
     return render_template('enumeration.html')
 
@@ -68,27 +78,35 @@ def gaining_access_tools():
     """Gaining access tools page"""
     if request.method == 'POST':
         target = request.form.get('target')
-        # Add logic for gaining access tools here
-        # result = gaining_access_tool(target)
-        result = {"status": "success", "results": "Gaining access results for " + target}
-        return jsonify(result)
+        tool = request.form.get('tool')
+        
+        if tool == 'metasploit':
+            result = metasploit_exploit(target)
+        elif tool == 'ftp':
+            result = ftp_exploit(target)
+        elif tool == 'ssh':
+            result = ssh_exploit(target)
+        else:
+            result = {"status": "error", "message": "Invalid tool selected"}
+        
+        return jsonify({"status": "success", "data": result})
     
-    return render_template('gainingAccess.html')
+    return render_template('gaining_access.html')
 
 @main_bp.route('/gaining-access/metasploit', methods=['POST'])
 def metasploit_access():
     target = request.form.get('target')
     result = metasploit_exploit(target)
-    return jsonify(result)
+    return jsonify({"status": "success", "data": result})
 
 @main_bp.route('/gaining-access/ftp', methods=['POST'])
 def ftp_access():
     target = request.form.get('target')
     result = ftp_exploit(target)
-    return jsonify(result)
+    return jsonify({"status": "success", "data": result})
 
 @main_bp.route('/gaining-access/ssh', methods=['POST'])
 def ssh_access():
     target = request.form.get('target')
     result = ssh_exploit(target)
-    return jsonify(result)
+    return jsonify({"status": "success", "data": result})

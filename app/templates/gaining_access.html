@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
-{% block title %}Enumeration{% endblock %}
+{% block title %}Gaining Access{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1>Enumeration Tool</h1>
-
+    <h1>Gaining Access Tool</h1>
+    
     <div class="card">
         <div class="card-body">
-            <form id="enumerationForm" method="POST" action="/enumeration">
+            <form id="gainingAccessForm" method="POST" action="/gaining-access">
                 <div class="mb-3">
-                    <label for="targetInput" class="form-label">Target IP Address / Domain</label>
+                    <label for="targetInput" class="form-label">Target IP Address / Hostname</label>
                     <input 
                         type="text" 
                         class="form-control" 
@@ -20,15 +20,26 @@
                         required
                     >
                 </div>
+                
                 <div class="mb-3">
-                    <label for="toolSelect" class="form-label">Enumeration Type</label>
-                    <select class="form-select" id="toolSelect" name="tool">
-                        <option value="banner">Banner Grabbing</option>
-                        <option value="os">OS Enumeration</option>
-                        <option value="user">User Enumeration</option>
-                    </select>
+                    <label class="form-label">Tool</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="tool" value="metasploit" checked>
+                            <label class="form-check-label">Metasploit</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="tool" value="ftp">
+                            <label class="form-check-label">FTP</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="tool" value="ssh">
+                            <label class="form-check-label">SSH</label>
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Start Enumeration</button>
+                
+                <button type="submit" class="btn btn-primary">Start Exploit</button>
             </form>
         </div>
     </div>
@@ -40,20 +51,20 @@
 
 {% block extra_js %}
 <script>
-document.getElementById('enumerationForm').addEventListener('submit', function(e) {
+document.getElementById('gainingAccessForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
     const resultsContainer = document.getElementById('resultsContainer');
     resultsContainer.innerHTML = '<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>';
     
-    fetch('/enumeration', {
+    fetch('/gaining-access', {
         method: 'POST',
         body: new FormData(this)
     })
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
-            const tool = document.getElementById('toolSelect').value;
+            const tool = document.querySelector('input[name="tool"]:checked').value;
             const target = document.getElementById('targetInput').value;
             let html = `<div class="card"><div class="card-header">${tool.toUpperCase()} Results for ${target}</div><div class="card-body">`;
             if (typeof data.data === 'object') {
